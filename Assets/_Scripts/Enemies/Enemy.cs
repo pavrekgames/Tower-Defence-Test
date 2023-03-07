@@ -16,13 +16,10 @@ public abstract class Enemy : MonoBehaviour
     [Header("Ememy UI")]
     [SerializeField] protected Image healthBar;
 
-    #region Events
-
     public static event Action OnSubstractedLive;
     public static event Action OnKilledEnemy;
 
-    #endregion
-
+    #region Private Methods
     void Start()
     {
         target = EnemyPoints.points[0];
@@ -35,12 +32,26 @@ public abstract class Enemy : MonoBehaviour
         pointsIndex = 0;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("End"))
+        {
+            GameManager.playerLives--;
+            GameManager.enemiesAmount--;
+            OnKilledEnemy?.Invoke();
+            OnSubstractedLive?.Invoke();
+            gameObject.SetActive(false);
+        }
+    }
+    #endregion
+
+    #region Protected Methods
     protected void MoveEnemy(Vector3 direction)
     {
         transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);
     }
 
-   protected void GetNextPoint(float distance)
+    protected void GetNextPoint(float distance)
     {
         if (distance <= 0.2f)
         {
@@ -49,7 +60,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-   protected void EnemyDeath()
+    protected void EnemyDeath()
     {
         if (health <= 0)
         {
@@ -64,22 +75,12 @@ public abstract class Enemy : MonoBehaviour
     {
         healthBar.fillAmount = health / maxHealh;
     }
+    #endregion
 
+    #region Public Methods
     public void ReceiveDamage(int damage)
     {
         health -= damage;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("End"))
-        {
-            GameManager.playerLives--;
-            GameManager.enemiesAmount--;
-            OnKilledEnemy?.Invoke();
-            OnSubstractedLive?.Invoke();
-            gameObject.SetActive(false);
-        }
-    }
-
+    #endregion 
 }

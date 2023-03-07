@@ -25,10 +25,23 @@ public class UpgradesUI : MonoBehaviour
 
     public static event Action OnTurretUpgraded;
 
+    #region Private Methods
     private void Start()
     {
         turretFactory = TurretFactory.instance;
     }
+
+    private void SetStatsValues(TurretData turretData)
+    {
+        turretName.text = turretData.turretName.ToString();
+        turretLevelValue.text = turretData.level.ToString();
+        damageValue.text = turretData.damage.ToString();
+        rangeValue.text = turretData.range.ToString();
+        bulletSpeedValue.text = turretData.bulletSpeed.ToString();
+    }
+    #endregion
+
+    #region Public Methods
     public void HideUpgrades()
     {
         upgradesPanelCanvas.enabled = false;
@@ -75,13 +88,5 @@ public class UpgradesUI : MonoBehaviour
 
         SetStatsValues(turretFactory.currentGreenTurretUpgrade);
     }
-
-    void SetStatsValues(TurretData turretData)
-    {
-        turretName.text = turretData.turretName.ToString();
-        turretLevelValue.text = turretData.level.ToString();
-        damageValue.text = turretData.damage.ToString();
-        rangeValue.text = turretData.range.ToString();
-        bulletSpeedValue.text = turretData.bulletSpeed.ToString();
-    }
+    #endregion
 }

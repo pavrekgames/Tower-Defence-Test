@@ -19,7 +19,9 @@ public class HudUI : MonoBehaviour
 
     [Header("References")]
     [SerializeField] UpgradesUI upgradesUI;
-    void Start()
+
+    #region Private Methods
+    private void Start()
     {
         Enemy.OnSubstractedLive += UpdateLivesText;
         Enemy.OnKilledEnemy += UpdateMoneyText;
@@ -29,21 +31,23 @@ public class HudUI : MonoBehaviour
         UpgradesUI.OnTurretUpgraded += UpdateMoneyText;
     }
 
-    void UpdateLivesText()
+    private void UpdateLivesText()
     {
         livesText.text = GameManager.playerLives.ToString();
     }
 
-    void UpdateMoneyText()
+    private void UpdateMoneyText()
     {
         moneyText.text = GameManager.money.ToString();
     }
 
-    void UpdateEnemyAmountText()
+    private void UpdateEnemyAmountText()
     {
         enemyAmountText.text = GameManager.enemiesAmount.ToString();
     }
+    #endregion
 
+    #region Public Methods
     public void ShowUpgrades()
     {
         upgradesCanvas.enabled = true;
@@ -59,4 +63,5 @@ public class HudUI : MonoBehaviour
         pauseCanvas.enabled = true;
         Time.timeScale = 0;
     }
+    #endregion
 }

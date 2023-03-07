@@ -12,6 +12,7 @@ public class BulletsObjectPool : MonoBehaviour
     public int bulletAmount;
     public Transform bulletsParent;
 
+    #region Private Methods
     private void Awake()
     {
         if (instance == null)
@@ -23,12 +24,12 @@ public class BulletsObjectPool : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void Start()
+    private void Start()
     {
         CreateBullets();
     }
 
-    void CreateBullets()
+    private void CreateBullets()
     {
         GameObject newBullet;
 
@@ -39,7 +40,9 @@ public class BulletsObjectPool : MonoBehaviour
             bullets.Add(newBullet);
         }
     }
+    #endregion
 
+    #region Public Methods
     public GameObject GetPooledObject()
     {
         for (int i = 0; i < bulletAmount; i++)
@@ -51,4 +54,5 @@ public class BulletsObjectPool : MonoBehaviour
         }
         return null;
     }
+    #endregion
 }
